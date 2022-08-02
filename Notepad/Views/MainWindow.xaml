@@ -1,0 +1,118 @@
+﻿<Window x:Class="Notepad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Notepad"
+        xmlns:wm="clr-namespace:Notepad.ViewModels"
+        mc:Ignorable="d"
+        KeyDown="KeyDown_Event"
+        Title="Notepad" Height="650" Width="1000">
+
+    <Grid>
+        <ToolBar Width="auto" Height="30" Background="LightGray" Name="menu" Grid.ColumnSpan="2">
+            <Button Content="File" Name="fileMenu" Click="fileMenu_Click" Margin="20,0" FontSize="15">
+                <Button.ContextMenu>
+                    <ContextMenu Name="fileContextMenu">
+                        <MenuItem Header="New window" Cursor="Hand" InputGestureText="Ctrl+Shift+N"
+                                  Click="MenuItem_Click" />
+                        <MenuItem Header="Save as" Cursor="Hand" InputGestureText="Ctrl+Shift+S" 
+                                  Name="saveFile" Click="saveFile_Click" />
+                        <MenuItem Header="Save" Cursor="Hand" InputGestureText="Ctrl+S"
+                                  Name="save" Click="save_Click" />
+                        <MenuItem Header="Open" Cursor="Hand" InputGestureText="Ctrl+O"
+                                  Name="open" Click="open_Click" />
+                        <MenuItem Header="Encodeing" Name="encodingFile" Cursor="Hand">
+                        </MenuItem>
+                        <MenuItem Header="Exit" Cursor="Hand" Name="exit" Click="exit_Click" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+            <Button Content="Edit" Margin="20,0" FontSize="15" Name="edit" Click="edit_Click">
+                <Button.ContextMenu>
+                    <ContextMenu Name="editContextMenu">
+                        <MenuItem Header="Undo" Name="undoText" InputGestureText="Ctrl+Z"
+                                  Cursor="Hand" Click="undoText_Click" />
+                        <MenuItem Header="Copy" Name="copyText" InputGestureText="Ctrl+C"
+                                  Click="copyText_Click" Cursor="Hand" />
+                        <MenuItem Header="Cut" Name="cutText" InputGestureText="Ctrl+X"
+                                  Click="cutText_Click" Cursor="Hand"/>
+                        <MenuItem Header="Paste" Name="pasteText" InputGestureText="Ctrl+V" 
+                                  Click="pasteText_Click" Cursor="Hand" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+            <Button Content="Style" Margin="20,0" FontSize="15" Name="styleButton" Click="styleButton_Click">
+                <Button.ContextMenu>
+                    <ContextMenu Name="styleContextMenu">
+                        <CheckBox Name="lineWrapping" IsChecked="True" Cursor="Hand" 
+                                  Content="Line Wrapping" Click="lineWrapping_Click" />
+                        <MenuItem Header="Magnification font size" Name="magFontSize" Click="magFontSize_Click" />
+                        <MenuItem Header="Reduction font size" Name="redFontSize" Click="redFontSize_Click" />
+                        <MenuItem Header="Restore default fontsize" Name="restoreFontSize" 
+                                  Click="restoreFontSize_Click" />
+                        <MenuItem Header="Background color" Name="backgroundColor">
+                            <RadioButton Content="Dark gray" Name="backgroundDarkGray" Cursor="Hand"
+                                         Click="backgroundDarkGray_Click" />
+                            <RadioButton Content="Gray" Name="backgroundGray" Cursor="Hand"
+                                         Click="backgroundGray_Click" />
+                            <RadioButton Content="Blue" Name="backgroundBlue" Cursor="Hand"
+                                         Click="backgroundBlue_Click"/>
+                            <RadioButton Content="Dark blue" Name="backgroundDarkBlue" Cursor="Hand"
+                                         Click="backgroundDarkBlue_Click" />
+                            <RadioButton Content="White" Name="backgroundWhite" Cursor="Hand" IsChecked="True"
+                                         Click="backgroundWhite_Click" />
+                            <RadioButton Content="Purple" Name="backgroundPurple" Cursor="Hand"
+                                         Click="backgroundPurple_Click" />
+                            <RadioButton Content="Red" Name="backgroundRed" Cursor="Hand"
+                                         Click="backgroundRed_Click" />
+                        </MenuItem>
+                        <MenuItem Name="fontColor" Header="Font color">
+                            <RadioButton Content="Black" Name="fontBlack" Cursor="Hand" 
+                                         Click="fontBlack_Click" IsChecked="True" />
+                            <RadioButton Content="Dark gray" Name="fontDarkGray" Cursor="Hand" 
+                                         Click="fontDarkGray_Click" />
+                            <RadioButton Content="Gray" Name="fontGray" Cursor="Hand" 
+                                         Click="fontGray_Click" />
+                            <RadioButton Content="Blue" Name="fontBlue" Cursor="Hand"
+                                         Click="fontBlue_Click" />
+                            <RadioButton Content="Dark blue" Name="fontDarkBlue" Cursor="Hand" 
+                                         Click="fontDarkBlue_Click" />
+                            <RadioButton Content="White" Name="fontWhite" Cursor="Hand"
+                                         Click="fontWhite_Click" />
+                            <RadioButton Content="Purple" Name="fontPurple" Cursor="Hand"
+                                         Click="fontPurple_Click" />
+                            <RadioButton Content="Red" Name="fontRed" Cursor="Hand" 
+                                         Click="fontRed_Click" />
+                        </MenuItem>
+                        <MenuItem Name="notepadStyle" Header="Notepad style">
+                            <RadioButton Content="Default" Name="defaultStyle" Cursor="Hand" IsChecked="True"
+                                         Click="defaultStyle_Click"/>
+                            <RadioButton Content="DOS Master" Name="dosMasterStyle" Cursor="Hand" 
+                                         Click="dosMasterStyle_Click"  />
+                        </MenuItem>
+                        <MenuItem Name="lineMeterOnOff" Header="Line meter" IsCheckable="True" IsChecked="True" 
+                                  Click="lineMeterOnOff_Click" />
+                    </ContextMenu>
+                </Button.ContextMenu>
+            </Button>
+        </ToolBar>
+
+        <TextBlock Grid.Column="0" Grid.Row="1" Background="DarkGray" Width="auto" Height="auto" 
+                   Name="lineMeter" FontSize="15" />
+        <TextBox Name="notepadText" Grid.Row="2" Grid.Column="1" Width="auto" Height="auto" Padding="10, 10" 
+                 TextWrapping="Wrap" AcceptsTab="True" FontSize="15" AcceptsReturn="True" Background="{Binding BackgroundColor}">
+        </TextBox>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30">
+            </RowDefinition>
+            <RowDefinition>
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+    </Grid>
+</Window>
